@@ -1,5 +1,4 @@
 import os, re, sys
-import spaces
 import traceback
 import shutil
 import torch
@@ -29,7 +28,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, AutoModel
 import gradio as gr
 import zipfile
 
-model_url = "Apollo-LMMs/Apollo-3B-t32"
+model_url = "GoodiesHere/Apollo-LMMs-Apollo-1_5B-t32"
 video_url = "https://www.youtube.com/watch?v=9CznKnLqp7k"
 
 yt_dlp_bin = os.getenv('YT_DLP')
@@ -108,7 +107,7 @@ class Chat:
         self.mm_processor =  ApolloMMLoader(self._vision_processors, 
                                             clip_duration, 
                                             frames_per_clip, 
-                                            clip_sampling_ratio=0.65,
+                                            clip_sampling_ratio=0.5,
                                             model_max_length = self._config.model_max_length,
                                             device=device,
                                             num_repeat_token=self.num_repeat_token)
@@ -130,7 +129,6 @@ class Chat:
 
         return message
     
-    @spaces.GPU(duration=120)
     @torch.inference_mode()
     def generate(self, data: list, message, temperature, top_p, max_output_tokens):
         # TODO: support multiple turns of conversation.
@@ -180,7 +178,6 @@ class Chat:
         return self.remove_after_last_dot(pred)
 
 
-@spaces.GPU(duration=120)
 def generate(image, video, message, chatbot, textbox_in, temperature, top_p, max_output_tokens, dtype=torch.float16):
     print(message)
     if textbox_in is None:
@@ -378,4 +375,5 @@ with gr.Blocks(title='Apollo-3B', theme=theme, css=block_css) as demo:
         [message, chatbot],
         [image, video, message, chatbot, textbox])
 
-demo.launch()
+if __name__ == "__main__":
+  demo.launch()
