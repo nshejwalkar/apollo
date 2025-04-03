@@ -376,4 +376,4 @@ with gr.Blocks(title='Apollo-3B', theme=theme, css=block_css) as demo:
         [image, video, message, chatbot, textbox])
 
 if __name__ == "__main__":
-  demo.launch()
+  demo.launch(share=True)
