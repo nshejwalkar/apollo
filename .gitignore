@@ -1,3 +1,6 @@
+# big videos
+videos_to_process/
+
 # Ignore Python cache
 __pycache__/
 *.py[cod]
